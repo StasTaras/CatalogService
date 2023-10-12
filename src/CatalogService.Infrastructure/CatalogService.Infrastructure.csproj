@@ -16,8 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CartingService.Application\CatalogService.Application.csproj" />
-    <ProjectReference Include="..\CartingService.Domain\CatalogService.Domain.csproj" />
+    <ProjectReference Include="..\CatalogService.Application\CatalogService.Application.csproj" />
+    <ProjectReference Include="..\CatalogService.Domain\CatalogService.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
