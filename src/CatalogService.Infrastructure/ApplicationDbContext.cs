@@ -32,7 +32,7 @@ namespace CatalogService.Infrastructure
             builder.HasKey(e => e.CategoryId);
             builder.Property(e => e.Name).IsRequired().HasMaxLength(50);
             builder.HasOne(e => e.ParentCategory).WithMany().HasForeignKey(e => e.ParentCategoryId);
-            builder.HasMany(e => e.Items).WithOne(e => e.Category);
+            builder.HasMany(e => e.Items).WithOne(e => e.Category).OnDelete(DeleteBehavior.Cascade);
         }
 
         private void ConfigureItem(EntityTypeBuilder<Item> builder)

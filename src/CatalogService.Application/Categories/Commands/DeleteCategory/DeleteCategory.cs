@@ -1,5 +1,6 @@
 ﻿using CatalogService.Application.Common.Interfaces;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace CatalogService.Application.Categories.Commands.DeleteCategory
 {
@@ -16,9 +17,12 @@ namespace CatalogService.Application.Categories.Commands.DeleteCategory
 
         public async Task Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
         {
-            var category = await _context.Categories.FindAsync(request.CategoryId, cancellationToken);
+            var category = await _context.Categories
+                .Include(i => i.Items)
+                .SingleOrDefaultAsync(e => e.CategoryId == request.CategoryId, cancellationToken);
             if (category != null)
             {
+                _context.Items.RemoveRange(category.Items);
                 _context.Categories.Remove(category);
 
                 await _context.SaveChangesAsync(cancellationToken);
