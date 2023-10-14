@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CatalogService.Application.Categories.Queries.Models;
+using CatalogService.Application.Items.Queries.Models;
 using CatalogService.Domain.Entities;
 
 namespace CatalogService.Application.Common.Mappings
@@ -9,6 +10,7 @@ namespace CatalogService.Application.Common.Mappings
         public MappingExtensions()
         {
             CreateMap<Category, CategoryModel>();
+            CreateMap<Item, ItemModel>();
         }
     }
 }

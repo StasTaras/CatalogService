@@ -1,1 +1,2 @@
-# CatalogService
+Add-Migration InitialCreate
+Update-Database

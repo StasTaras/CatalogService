@@ -1,6 +1,12 @@
-﻿using CatalogService.Application.Categories.Queries;
+﻿using CatalogService.Application.Categories.Commands.CreateCategory;
+using CatalogService.Application.Categories.Commands.CreateCategory.Models;
+using CatalogService.Application.Categories.Commands.UpdateCategory;
+using CatalogService.Application.Categories.Commands.UpdateCategory.Models;
+using CatalogService.Application.Categories.Queries;
+using CatalogService.Application.Categories.Queries.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using CatalogService.Application.Categories.Commands.DeleteCategory;
 
 namespace CatalogService.WebAPI.Controllers
 {
@@ -16,45 +22,47 @@ namespace CatalogService.WebAPI.Controllers
         }
 
         [HttpGet("{id:int}")]
+        [ProducesResponseType(typeof(CategoryModel), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get([FromRoute] int id)
         {
-            var result = await _mediator.Send(new GetCategoriesQuery());
+            var result = await _mediator.Send(new GetCategoryQuery(id));
             return Ok(result);
         }
 
         [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<CategoryModel>), StatusCodes.Status200OK)]
         public async Task<IActionResult> List()
         {
-            var result = await _mediator.Send(new GetCategoriesQuery());
+            var result = await _mediator.Send(new GetListCategoriesQuery());
             return Ok(result);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(CancellationToken cancellationToken)
+        [ProducesResponseType(typeof(CategoryModel), StatusCodes.Status201Created)]
+        public async Task<IActionResult> Add(
+            [FromBody] CreateCategoryModel categoryModel,
+            CancellationToken cancellationToken)
         {
-            //var category = new Category
-            //{
-            //    Name = "Sample Category",
-            //    Image = "https://example.com/sample.jpg"
-            //};
-
-            //_applicationDbContext.Categories.Add(category);
-            //await _applicationDbContext.SaveChangesAsync(cancellationToken);
-
-
-            return Ok("categories");
+            var result = await _mediator.Send(new CreateCategoryCommand(categoryModel), cancellationToken);
+            return CreatedAtAction(nameof(Get), new {id = result.CategoryId}, result);
         }
 
-        [HttpPut]
-        public IActionResult Update()
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> Update(
+            [FromRoute] int id,
+            [FromBody] UpdateCategoryModel categoryModel,
+            CancellationToken cancellationToken)
         {
-            return Ok("categories");
+            await _mediator.Send(new UpdateCategoryCommand(categoryModel, id), cancellationToken);
+            return Ok();
         }
 
-        [HttpDelete]
-        public IActionResult Delete()
+        [HttpDelete("{id:int}")]
+        [ProducesResponseType(typeof(CategoryModel), StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> Delete([FromRoute] int id, CancellationToken cancellationToken)
         {
-            return Ok("categories");
+            await _mediator.Send(new DeleteCategoryCommand(id), cancellationToken);
+            return NoContent();
         }
     }
 }

@@ -7,14 +7,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CatalogService.Application.Categories.Queries
 {
-    public record GetCategoriesQuery : IRequest<IEnumerable<CategoryModel>>;
+    public record GetListCategoriesQuery : IRequest<IEnumerable<CategoryModel>>;
 
-    public class GetCategoriesQueryHandler : IRequestHandler<GetCategoriesQuery, IEnumerable<CategoryModel>>
+    public class GetListCategoriesQueryHandler : IRequestHandler<GetListCategoriesQuery, IEnumerable<CategoryModel>>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
 
-        public GetCategoriesQueryHandler(
+        public GetListCategoriesQueryHandler(
             IApplicationDbContext context, 
             IMapper mapper)
         {
@@ -23,7 +23,7 @@ namespace CatalogService.Application.Categories.Queries
         }
 
         public async Task<IEnumerable<CategoryModel>> Handle(
-            GetCategoriesQuery request, 
+            GetListCategoriesQuery request, 
             CancellationToken cancellationToken)
         {
             return await _context.Categories

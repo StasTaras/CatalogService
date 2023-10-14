@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿
+using CatalogService.Domain.Entities;
 
-namespace CatalogService.Domain.Entities
+namespace CatalogService.Application.Items.Queries.Models
 {
-    public class Item
+    public class ItemModel
     {
         public int ItemId { get; set; }
 
@@ -11,9 +12,7 @@ namespace CatalogService.Domain.Entities
         public string Description { get; set; }
 
         public string Image { get; set; }
-
-        public int CategoryId { get; set; }
-
+        
         public Category Category { get; set; }
 
         public decimal Price { get; set; }
