@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
+using CatalogService.Application.Categories.Commands.CreateCategory.Models;
 using CatalogService.Application.Categories.Queries.Models;
 using CatalogService.Application.Common.Interfaces;
-using CatalogService.Application.Items.Commands.CreateItem.Models;
 using CatalogService.Domain.Entities;
 using MediatR;
 
 namespace CatalogService.Application.Categories.Commands.CreateCategory
 {
-    public record CreateCategoryCommand(CreateItemModel CreateItemModel) : IRequest<CategoryModel>;
+    public record CreateCategoryCommand(CreateCategoryModel CreateCategoryModel) : IRequest<CategoryModel>;
 
     public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, CategoryModel>
     {
@@ -24,9 +24,9 @@ namespace CatalogService.Application.Categories.Commands.CreateCategory
         {
             var category = new Category
             {
-                Name = request.CreateItemModel.Name,
-                Image = request.CreateItemModel.Image,
-                ParentCategoryId = request.CreateItemModel.CategoryId,
+                Name = request.CreateCategoryModel.Name,
+                Image = request.CreateCategoryModel.Image,
+                ParentCategoryId = request.CreateCategoryModel.ParentCategoryId
             }; 
 
             _context.Categories.Add(category);
