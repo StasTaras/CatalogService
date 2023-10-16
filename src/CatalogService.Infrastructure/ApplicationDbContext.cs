@@ -12,13 +12,6 @@ namespace CatalogService.Infrastructure
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Item> Items { get; set; }
 
-        //protected override void OnModelCreating(ModelBuilder builder)
-        //{
-        //    builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
-        //    base.OnModelCreating(builder);
-        //}
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Category>(ConfigureCategory);
@@ -31,8 +24,13 @@ namespace CatalogService.Infrastructure
         {
             builder.HasKey(e => e.CategoryId);
             builder.Property(e => e.Name).IsRequired().HasMaxLength(50);
-            builder.HasOne(e => e.ParentCategory).WithMany().HasForeignKey(e => e.ParentCategoryId);
-            builder.HasMany(e => e.Items).WithOne(e => e.Category).OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(e => e.ParentCategory)
+                .WithMany()
+                .HasForeignKey(e => e.ParentCategoryId)
+                .IsRequired(false);
+            builder.HasMany(e => e.Items)
+                .WithOne(e => e.Category)
+                .OnDelete(DeleteBehavior.Cascade);
         }
 
         private void ConfigureItem(EntityTypeBuilder<Item> builder)

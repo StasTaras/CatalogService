@@ -48,6 +48,7 @@ namespace CatalogService.WebAPI.Controllers
         }
 
         [HttpPut("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Update(
             [FromRoute] int id,
             [FromBody] UpdateItemModel itemModel,

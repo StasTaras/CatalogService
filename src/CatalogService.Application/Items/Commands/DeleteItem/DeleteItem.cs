@@ -19,9 +19,6 @@ namespace CatalogService.Application.Items.Commands.DeleteItem
             var item = await _context.Items.FindAsync(request.ItemId, cancellationToken);
             if (item != null)
             {
-               // var itemCategory = item.Category;
-              //  itemCategory.Items.Remove(item);
-
                 _context.Items.Remove(item);
 
                 await _context.SaveChangesAsync(cancellationToken);
