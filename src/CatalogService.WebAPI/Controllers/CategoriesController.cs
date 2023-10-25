@@ -39,6 +39,7 @@ namespace CatalogService.WebAPI.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(CategoryModel), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Add(
             [FromBody] CreateCategoryModel categoryModel,
             CancellationToken cancellationToken)
@@ -48,6 +49,8 @@ namespace CatalogService.WebAPI.Controllers
         }
 
         [HttpPut("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Update(
             [FromRoute] int id,
             [FromBody] UpdateCategoryModel categoryModel,

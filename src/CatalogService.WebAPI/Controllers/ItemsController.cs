@@ -31,9 +31,15 @@ namespace CatalogService.WebAPI.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<ItemModel>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> List(
+            [FromQuery] int? categoryId,
+            [FromQuery] ItemPaginationParameters itemPaginationParameters)
         {
-            var result = await _mediator.Send(new GetListItemsQuery());
+            var result = await _mediator.Send(
+                new GetListItemsQuery(itemPaginationParameters)
+                {
+                    CategoryId = categoryId
+                });
             return Ok(result);
         }
 
@@ -49,6 +55,7 @@ namespace CatalogService.WebAPI.Controllers
 
         [HttpPut("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Update(
             [FromRoute] int id,
             [FromBody] UpdateItemModel itemModel,
