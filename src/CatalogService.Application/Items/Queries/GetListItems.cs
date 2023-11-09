@@ -32,7 +32,7 @@ public class GetListItemsQueryHandler : IRequestHandler<GetListItemsQuery, IEnum
         GetListItemsQuery request,
         CancellationToken cancellationToken)
     {
-        var itemsQuery = _context.Items.Select(i => i);
+        var itemsQuery = _context.Items.AsQueryable();
             
         //use filtration by categoryId
         if (request.CategoryId != null)
